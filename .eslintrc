@@ -1,7 +1,0 @@
-{
-  "plugins": ["prettier"],
-  "extends": ["prettier", "@callstack"],
-  "rules": {
-    "prettier/prettier": "error"
-  }
-}
