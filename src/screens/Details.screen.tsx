@@ -3,10 +3,10 @@ import {View, Text, StyleSheet} from 'react-native';
 import {RouteProp} from '@react-navigation/native';
 import {RootStackParamList} from '../types/RootStackParamList';
 
-type ProfileScreenRouteProp = RouteProp<RootStackParamList, 'Details'>;
+type DetailsScreenRouteProp = RouteProp<RootStackParamList, 'Details'>;
 
 type Props = {
-  route: ProfileScreenRouteProp;
+  route: DetailsScreenRouteProp;
 };
 
 export const DetailsScreen = ({route}: Props) => {

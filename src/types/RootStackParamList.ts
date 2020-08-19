@@ -1,4 +1,4 @@
 export type RootStackParamList = {
-  Weather: undefined;
-  Details: {city: string};
+  Weather: {cities: Set<number>};
+  Details: {city: number};
 };
