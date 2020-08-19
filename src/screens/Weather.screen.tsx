@@ -34,11 +34,13 @@ export const WeatherScreen = ({navigation, route}: Props) => {
   }, []);
 
   const renderItem = (city: WeatherData) => (
-    <WeatherItem
-      city={city}
-      onPress={() => navigation.navigate('Details', {city: city.id})}
-      key={city.id}
-    />
+    <>
+      <WeatherItem
+        city={city}
+        onPress={() => navigation.navigate('Details', {city: city.id})}
+        key={city.id}
+      />
+    </>
   );
 
   return (

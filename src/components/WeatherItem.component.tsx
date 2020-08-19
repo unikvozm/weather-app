@@ -6,7 +6,7 @@ import {UIconstants} from '../constants/styles.constants';
 
 type Props = {
   city: WeatherData;
-  onPress: () => void;
+  onPress?: () => void;
 };
 export const WeatherItem = ({city, onPress}: Props) => {
   const iconUrl = `https://openweathermap.org/img/wn/${city.icon}@4x.png`;
