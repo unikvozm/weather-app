@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { useDispatch, useSelector } from 'react-redux';
-import { RouteProp } from '@react-navigation/native';
-import { List, IconButton } from 'react-native-paper';
-import { RootStackParamList } from '../types/RootStackParamList';
-import { weatherActions } from '../redux/actions/weather.actions';
-import { Store } from '../redux/reducers/root.reducer';
-import { WeatherData } from '../types/WeatherData';
-import { WeatherItem } from '../components/WeatherItem.component';
+import {View, StyleSheet} from 'react-native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {useDispatch, useSelector} from 'react-redux';
+import {RouteProp} from '@react-navigation/native';
+import {List} from 'react-native-paper';
+import {RootStackParamList} from '../types/RootStackParamList';
+import {weatherActions} from '../redux/actions/weather.actions';
+import {Store} from '../redux/reducers/root.reducer';
+import {WeatherData} from '../types/WeatherData';
+import {WeatherItem} from '../components/WeatherItem.component';
 
 type ProfileScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -22,8 +22,8 @@ type Props = {
   route: WeatherScreenRouteProp;
 };
 
-export const WeatherScreen = ({ navigation, route }: Props) => {
-  const { cities } = route.params;
+export const WeatherScreen = ({navigation, route}: Props) => {
+  const {cities} = route.params;
   // const [citiesId, setSitiesId] = React.useState(cities);
   const weather = useSelector((state: Store) => state.weather.weather);
 
@@ -37,9 +37,8 @@ export const WeatherScreen = ({ navigation, route }: Props) => {
     <>
       <WeatherItem
         city={city}
-        onPress={() => navigation.navigate('Details', { city: city.id })}
+        onPress={() => navigation.navigate('Details', {city: city.id})}
         key={city.id}
-        showArrow
       />
     </>
   );
