@@ -1,15 +1,14 @@
 import * as React from 'react';
-import { TouchableOpacity, Image, StyleSheet } from 'react-native';
-import { List, Chip } from 'react-native-paper';
-import { WeatherData } from '../types/WeatherData';
-import { UIconstants } from '../constants/styles.constants';
+import {TouchableOpacity, Image, StyleSheet} from 'react-native';
+import {List, Chip} from 'react-native-paper';
+import {WeatherData} from '../types/WeatherData';
+import {UIconstants} from '../constants/styles.constants';
 
 type Props = {
   city: WeatherData;
   onPress?: () => void;
-  showArrow?: boolean
 };
-export const WeatherItem = ({ city, onPress, showArrow = false }: Props) => {
+export const WeatherItem = ({city, onPress}: Props) => {
   const iconUrl = `https://openweathermap.org/img/wn/${city.icon}@4x.png`;
   const temperature = `${city.temp}°C`;
   return (
@@ -22,7 +21,7 @@ export const WeatherItem = ({ city, onPress, showArrow = false }: Props) => {
           <Image
             {...props}
             style={styles.image}
-            source={{ uri: iconUrl }}
+            source={{uri: iconUrl}}
             accessibilityIgnoresInvertColors
           />
         )}
@@ -35,7 +34,7 @@ export const WeatherItem = ({ city, onPress, showArrow = false }: Props) => {
           </Chip>
         )}
       />
-    </TouchableOpacity >
+    </TouchableOpacity>
   );
 };
 
