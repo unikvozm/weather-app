@@ -17,7 +17,7 @@ async function getWeatherByCityName(
   return res.data;
 }
 
-async function getWeatherByCityIds(
+export async function getWeatherByCityIds(
   cities: string[],
   units: string = 'metric',
 ): Promise<WeatherListDataFetched> {

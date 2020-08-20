@@ -45,7 +45,7 @@ export const WeatherScreen = ({navigation, route}: Props) => {
 
   return (
     <View style={styles.container}>
-      <List.Section style={styles.listContainer}>
+      <List.Section style={styles.listContainer} accessibilityHint="Weather List">
         {[...weather.values()].map((city) => renderItem(city))}
       </List.Section>
     </View>
