@@ -20,27 +20,31 @@ export const DetailsScreen = ({route}: Props) => {
   const cityData = weather.get(city);
   if (cityData) {
     return (
-      <View style={styles.container}>
+      <View style={styles.container} accessibilityHint="Weather Details">
         <WeatherItem city={cityData} />
         <List.Item
           style={styles.listItem}
           title="Humidity"
           right={(props) => <Text {...props}>{cityData.humidity} %</Text>}
+          accessibilityHint="Humidity"
         />
         <List.Item
           style={styles.listItem}
           title="Pressure"
           right={(props) => <Text {...props}>{cityData.pressure} hPa</Text>}
+          accessibilityHint="Pressure"
         />
         <List.Item
           style={styles.listItem}
           title="Wind speed"
           right={(props) => <Text {...props}>{cityData.windSpeed} m/s</Text>}
+          accessibilityHint="Wind speed"
         />
         <List.Item
           style={styles.listItem}
           title="Cloud cover"
           right={(props) => <Text {...props}>{cityData.cloudsCover} %</Text>}
+          accessibilityHint="Cloud cover"
         />
       </View>
     );
