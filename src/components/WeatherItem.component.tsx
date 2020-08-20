@@ -33,6 +33,7 @@ export const WeatherItem = ({city, onPress}: Props) => {
             {temperature}
           </Chip>
         )}
+        accessibilityHint='Weather Forecast'
       />
     </TouchableOpacity>
   );

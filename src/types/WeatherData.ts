@@ -1,7 +1,7 @@
 export type WeatherDataFetched = {
   coord: {lon: number; lat: number};
   weather: Weather[];
-  base: string;
+  base?: string;
   main: {
     temp: number;
     pressure: number;
@@ -13,17 +13,17 @@ export type WeatherDataFetched = {
   wind: {speed: number; deg: number};
   clouds: {all: number};
   dt: number;
-  sys: {
-    type: number;
-    id: number;
-    message: number;
+  sys?: {
+    type?: number;
+    id?: number;
+    message?: number;
     country: string;
     sunrise: number;
     sunset: number;
   };
   id: number;
   name: string;
-  cod: number;
+  cod?: number;
 };
 
 type Weather = {
@@ -34,7 +34,7 @@ type Weather = {
 };
 
 export type WeatherListDataFetched = {
-  cnt: 3;
+  cnt: number;
   list: WeatherDataFetched[];
 };
 
