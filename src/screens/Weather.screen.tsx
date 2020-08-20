@@ -24,14 +24,13 @@ type Props = {
 
 export const WeatherScreen = ({navigation, route}: Props) => {
   const {cities} = route.params;
-  // const [citiesId, setSitiesId] = React.useState(cities);
   const weather = useSelector((state: Store) => state.weather.weather);
 
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     dispatch(weatherActions.getWeatherForCities(cities));
-  }, []);
+  }, [cities]);
 
   const renderItem = (city: WeatherData) => (
     <>
