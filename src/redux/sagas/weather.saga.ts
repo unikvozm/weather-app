@@ -1,6 +1,5 @@
-import {call, put, takeEvery} from 'redux-saga/effects';
+import {call, put, takeEvery, select, delay} from 'redux-saga/effects';
 import AsyncStorage from '@react-native-community/async-storage';
-import {useSelector} from 'react-redux';
 import {BaseAction} from '../../types/BaseAction';
 import {
   WeatherDataFetched,
@@ -8,33 +7,42 @@ import {
   WeatherListDataFetched,
 } from '../../types/WeatherData';
 import {weatherApi} from '../api/weather.api';
-import {Store} from '../reducers/root.reducer';
 import {converWeatherData} from '../../utils/convertWeatherData';
 import {weatherActions} from '../actions/weather.actions';
 import {errorActions} from '../actions/error.actions';
 import {ActionTypes} from '../actions/ActionTypes.constants';
+import {weatherSelector} from '../selectors/weather.selector';
 
 export function* getWeatherForCity(action: BaseAction) {
   try {
     const {city, units} = action.payload;
+    const citiesName = yield select(weatherSelector.getCitiesName());
+    if (
+      citiesName
+        .map((name: string) => name.toLowerCase())
+        .includes(city.toLowerCase())
+    )
+      throw new Error(`${city.toUpperCase()} is already in the list`);
     const fetchedData: WeatherDataFetched = yield call(
       weatherApi.getWeatherByCityName,
       city,
       units,
     );
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const weather = useSelector((state: Store) => state.weather.weather);
     const convertedData: WeatherData = converWeatherData(fetchedData);
-    const newWeather = new Map(weather);
-    newWeather.set(convertedData.id, convertedData);
+    const weather = yield select(weatherSelector.getWeather);
+    const newWeather = [...weather, convertedData];
     yield put(weatherActions.setWeatherInfoForCities(newWeather));
-    const cities = new Set(...JSON.parse(yield AsyncStorage.getItem('cities')));
-    cities.add(convertedData.id);
-    yield AsyncStorage.setItem('cities', JSON.stringify([...cities]));
+    const cities = yield select(weatherSelector.getCitiesId());
+    yield AsyncStorage.setItem('cities', JSON.stringify(cities));
+    yield put(errorActions.setErrorMessage(''));
   } catch (error) {
-    yield put(
-      errorActions.setErrorMessage(error.message || "Can't find the city"),
-    );
+    console.log(error);
+    let message = error.message;
+    if (message === 'Request failed with status code 404')
+      message = "Can't find the city";
+    yield put(errorActions.setErrorMessage(message));
+    yield delay(5000);
+    yield put(errorActions.setErrorMessage(''));
   }
 }
 
@@ -49,18 +57,13 @@ export function* getWeatherForCities(action: BaseAction) {
     const convertedData: WeatherData[] = fetchedData.list.map((data) =>
       converWeatherData(data),
     );
-    const newWeather = new Map();
-    const newCities = new Set();
-    convertedData.forEach((data) => {
-      newWeather.set(data.id, data);
-      newCities.add(data.id);
-    });
-    yield put(weatherActions.setWeatherInfoForCities(newWeather));
-    yield AsyncStorage.setItem('cities', JSON.stringify([...cities]));
+    yield put(weatherActions.setWeatherInfoForCities(convertedData));
+    const citiesId = yield select(weatherSelector.getCitiesId());
+    yield AsyncStorage.setItem('cities', JSON.stringify(citiesId));
+    yield put(errorActions.setErrorMessage(''));
   } catch (error) {
-    yield put(
-      errorActions.setErrorMessage(error.message || "Can't load weather data"),
-    );
+    console.log(error);
+    yield put(errorActions.setErrorMessage("Can't load weather data"));
   }
 }
 
