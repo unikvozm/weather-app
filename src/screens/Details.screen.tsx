@@ -4,9 +4,9 @@ import {RouteProp} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import {List} from 'react-native-paper';
 import {RootStackParamList} from '../types/RootStackParamList';
-import {Store} from '../redux/reducers/root.reducer';
 import {WeatherItem} from '../components/WeatherItem.component';
 import {UIconstants} from '../constants/styles.constants';
+import {weatherSelector} from '../redux/selectors/weather.selector';
 
 type DetailsScreenRouteProp = RouteProp<RootStackParamList, 'Details'>;
 
@@ -15,9 +15,8 @@ type Props = {
 };
 
 export const DetailsScreen = ({route}: Props) => {
-  const {city} = route.params;
-  const weather = useSelector((state: Store) => state.weather.weather);
-  const cityData = weather.get(city);
+  const {cityId} = route.params;
+  const cityData = useSelector(weatherSelector.getCityWeather(cityId));
   if (cityData) {
     return (
       <View style={styles.container} accessibilityHint="Weather Details">

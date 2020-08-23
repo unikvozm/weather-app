@@ -7,17 +7,12 @@ const getWeatherForCity = (city: string, units?: string): BaseAction => ({
   payload: {city, units},
 });
 
-const getWeatherForCities = (
-  cities: Set<number>,
-  units?: string,
-): BaseAction => ({
+const getWeatherForCities = (cities: number[], units?: string): BaseAction => ({
   type: ActionTypes.GET_WEATHER_FOR_CITIES,
   payload: {cities, units},
 });
 
-const setWeatherInfoForCities = (
-  data: Map<number, WeatherData>,
-): BaseAction => ({
+const setWeatherInfoForCities = (data: WeatherData[]): BaseAction => ({
   type: ActionTypes.SET_WEATHER_FOR_CITIES,
   payload: data,
 });
