@@ -3,7 +3,7 @@ import {weatherReducer} from '../weather.reducer';
 import {WeatherData} from '../../../types/WeatherData';
 
 describe('weatherReducer', () => {
-  const oldWeather = new Map();
+  const oldWeather: WeatherData[] = [];
 
   test('set weather for cities', () => {
     const data: WeatherData = {
@@ -20,13 +20,16 @@ describe('weatherReducer', () => {
       visibility: 10,
     };
 
-    const newWeather = oldWeather.set(data.id, data);
+    const newWeather = [...oldWeather, data];
 
     const action = {
       type: ActionTypes.SET_WEATHER_FOR_CITIES,
       payload: newWeather,
     };
 
-    expect(weatherReducer(undefined, action)).toEqual({weather: newWeather});
+    expect(weatherReducer(undefined, action)).toEqual({
+      weather: newWeather,
+      units: 'metric',
+    });
   });
 });

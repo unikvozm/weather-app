@@ -1,20 +1,29 @@
 import React from 'react';
-import { render, within, fireEvent } from '@testing-library/react-native';
+import {
+  render,
+  within,
+  fireEvent,
+  waitFor,
+} from '@testing-library/react-native';
+import axiosMock from 'axios';
 import Main from '../../index';
-import { getWeatherByCityIds as mockGetWeatherByCityIds } from '../redux/api/weather.api';
-import { data } from '../utils/MockedWeatherData';
+import {data} from '../utils/MockedWeatherData';
 
-// Mock API reposponse
-jest.mock('../redux/api/weather.api');
+jest.mock('axios');
 
 test('Fetches and displays list of locations', async () => {
-  (mockGetWeatherByCityIds as jest.MockedFunction<typeof mockGetWeatherByCityIds>).mockImplementationOnce(() =>
-    Promise.resolve(data)
-  );
+  const url = `https://api.openweathermap.org/data/2.5/group?id=2643743,3081368,2950158&units=metric&appid=248e45bb116e81485c9d564c722542b5`;
+
+  (axiosMock.get as jest.MockedFunction<
+    typeof axiosMock.get
+  >).mockResolvedValueOnce({data});
 
   const app = render(<Main />);
 
-  expect(mockGetWeatherByCityIds).toHaveBeenCalledTimes(1);
+  await waitFor(() => app.getByA11yHint('Weather Screen'));
+
+  expect(axiosMock.get).toHaveBeenCalledTimes(1);
+  expect(axiosMock.get).toBeCalledWith(url);
 
   const listScreen = within(app.getByA11yHint('Weather List'));
   const items = await listScreen.findAllByA11yHint('Weather Forecast');
@@ -34,13 +43,12 @@ test('Fetches and displays list of locations', async () => {
   expect(thirdItem.getByText('Berlin')).toBeTruthy();
   expect(thirdItem.getByText('Clouds')).toBeTruthy();
   expect(thirdItem.getByText('24.42°C')).toBeTruthy();
-
 });
 
 test('Navigates to details screen when location is tapped', async () => {
-  (mockGetWeatherByCityIds as jest.MockedFunction<typeof mockGetWeatherByCityIds>).mockImplementationOnce(() =>
-    Promise.resolve(data)
-  );
+  (axiosMock.get as jest.MockedFunction<
+    typeof axiosMock.get
+  >).mockResolvedValueOnce({data});
 
   const app = render(<Main />);
 
