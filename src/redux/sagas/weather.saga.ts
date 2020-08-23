@@ -1,4 +1,11 @@
-import {call, put, takeEvery, select, delay} from 'redux-saga/effects';
+import {
+  call,
+  put,
+  takeEvery,
+  select,
+  delay,
+  takeLatest,
+} from 'redux-saga/effects';
 import AsyncStorage from '@react-native-community/async-storage';
 import {BaseAction} from '../../types/BaseAction';
 import {
@@ -51,7 +58,7 @@ export function* getWeatherForCities(action: BaseAction) {
     const {cities, units} = action.payload;
     const fetchedData: WeatherListDataFetched = yield call(
       weatherApi.getWeatherByCityIds,
-      [...cities.values()],
+      cities,
       units,
     );
     const convertedData: WeatherData[] = fetchedData.list.map((data) =>
@@ -64,10 +71,32 @@ export function* getWeatherForCities(action: BaseAction) {
   } catch (error) {
     console.log(error);
     yield put(errorActions.setErrorMessage("Can't load weather data"));
+    yield delay(5000);
+    yield put(errorActions.setErrorMessage(''));
+  }
+}
+
+export function* deleteCity(action: BaseAction) {
+  try {
+    const cityId = action.payload;
+    const weatherData = yield select(weatherSelector.getWeather);
+    const newData = weatherData.filter(
+      (city: WeatherData) => city.id !== cityId,
+    );
+    yield put(weatherActions.setWeatherInfoForCities(newData));
+    const citiesId = yield select(weatherSelector.getCitiesId());
+    yield AsyncStorage.setItem('cities', JSON.stringify(citiesId));
+    yield put(errorActions.setErrorMessage(''));
+  } catch (error) {
+    console.log(error);
+    yield put(errorActions.setErrorMessage("Can't delete this city"));
+    yield delay(5000);
+    yield put(errorActions.setErrorMessage(''));
   }
 }
 
 export function* weatherWatcher() {
   yield takeEvery(ActionTypes.GET_WEATHER_FOR_CITY, getWeatherForCity);
   yield takeEvery(ActionTypes.GET_WEATHER_FOR_CITIES, getWeatherForCities);
+  yield takeLatest(ActionTypes.DELETE_CITY, deleteCity);
 }
