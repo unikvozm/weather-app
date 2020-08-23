@@ -51,11 +51,16 @@ export const WeatherScreen = ({navigation}: Props) => {
   const addCity = (city: string) =>
     dispatch(weatherActions.getWeatherForCity(city));
 
+  const deleteCity = (cityId: number) =>
+    dispatch(weatherActions.deleteCity(cityId));
+
   const renderItem = (city: WeatherData) => (
     <WeatherItem
       city={city}
       onPress={() => navigation.navigate('Details', {cityId: city.id})}
+      onDelete={() => deleteCity(city.id)}
       key={city.id}
+      swipable
     />
   );
 

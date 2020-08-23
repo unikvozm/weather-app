@@ -17,8 +17,14 @@ const setWeatherInfoForCities = (data: WeatherData[]): BaseAction => ({
   payload: data,
 });
 
+const deleteCity = (cityId: number): BaseAction => ({
+  type: ActionTypes.DELETE_CITY,
+  payload: cityId,
+});
+
 export const weatherActions = {
   getWeatherForCity,
   getWeatherForCities,
   setWeatherInfoForCities,
+  deleteCity,
 };
