@@ -17,10 +17,15 @@ type Props = {
 export const DetailsScreen = ({route}: Props) => {
   const {cityId} = route.params;
   const cityData = useSelector(weatherSelector.getCityWeather(cityId));
+  const units = useSelector(weatherSelector.getWeatherUnits);
+
   if (cityData) {
+    const windSpeed = `${cityData.windSpeed} ${
+      units === 'metric' ? 'm/s' : 'miles/hour'
+    }`;
     return (
       <View style={styles.container}>
-        <WeatherItem city={cityData} />
+        <WeatherItem city={cityData} units={units} />
         <List.Item
           style={styles.listItem}
           title="Humidity"
@@ -34,7 +39,7 @@ export const DetailsScreen = ({route}: Props) => {
         <List.Item
           style={styles.listItem}
           title="Wind speed"
-          right={(props) => <Text {...props}>{cityData.windSpeed} m/s</Text>}
+          right={(props) => <Text {...props}>{windSpeed}</Text>}
         />
         <List.Item
           style={styles.listItem}

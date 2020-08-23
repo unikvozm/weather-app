@@ -1,23 +1,41 @@
 import {WeatherData} from '../../types/WeatherData';
 import {BaseAction} from '../../types/BaseAction';
+import {Units} from '../../types/Units.type';
 import {ActionTypes} from './ActionTypes.constants';
 
-const getWeatherForCity = (city: string, units?: string): BaseAction => ({
+export type GET_WEATHER_FOR_CITY = string;
+const getWeatherForCity = (city: string): BaseAction<GET_WEATHER_FOR_CITY> => ({
   type: ActionTypes.GET_WEATHER_FOR_CITY,
-  payload: {city, units},
+  payload: city,
 });
 
-const getWeatherForCities = (cities: number[], units?: string): BaseAction => ({
+export type GET_WEATHER_FOR_CITIES = {
+  cities: number[];
+  units?: Units;
+};
+const getWeatherForCities = (
+  cities: number[],
+  units?: Units,
+): BaseAction<GET_WEATHER_FOR_CITIES> => ({
   type: ActionTypes.GET_WEATHER_FOR_CITIES,
   payload: {cities, units},
 });
 
-const setWeatherInfoForCities = (data: WeatherData[]): BaseAction => ({
+export type SET_WEATHER_FOR_CITIES = WeatherData[];
+const setWeatherInfoForCities = (
+  data: WeatherData[],
+): BaseAction<SET_WEATHER_FOR_CITIES> => ({
   type: ActionTypes.SET_WEATHER_FOR_CITIES,
   payload: data,
 });
 
-const deleteCity = (cityId: number): BaseAction => ({
+export type SET_WEATHER_UNITS = Units;
+const setWeatherUnits = (units: Units): BaseAction<SET_WEATHER_UNITS> => ({
+  type: ActionTypes.SET_WEATHER_UNITS,
+  payload: units,
+});
+
+const deleteCity = (cityId: number): BaseAction<number> => ({
   type: ActionTypes.DELETE_CITY,
   payload: cityId,
 });
@@ -27,4 +45,5 @@ export const weatherActions = {
   getWeatherForCities,
   setWeatherInfoForCities,
   deleteCity,
+  setWeatherUnits,
 };

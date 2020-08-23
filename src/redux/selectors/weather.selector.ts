@@ -1,6 +1,7 @@
 import {createSelector} from 'reselect';
 import {Store} from '../reducers/root.reducer';
 import {WeatherData} from '../../types/WeatherData';
+import {Units} from '../../types/Units.type';
 
 const getWeather = (state: Store): WeatherData[] => state.weather.weather;
 
@@ -20,9 +21,12 @@ const getCityWeather = (cityId: number) =>
     (weather): WeatherData => weather.filter((city) => city.id === cityId)[0],
   );
 
+const getWeatherUnits = (state: Store): Units => state.weather.units;
+
 export const weatherSelector = {
   getWeather,
   getCitiesName,
   getCitiesId,
   getCityWeather,
+  getWeatherUnits,
 };

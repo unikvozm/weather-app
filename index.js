@@ -7,7 +7,6 @@ import {AppRegistry} from 'react-native';
 import {Provider as PaperProvider} from 'react-native-paper';
 import {Provider as ReduxProvider} from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
-// import {composeWithDevTools} from 'redux-devtools-extension';
 import {createStore, applyMiddleware} from 'redux';
 import App from './src/App';
 import {name as appName} from './app.json';

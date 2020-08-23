@@ -15,21 +15,30 @@ import {
 } from '../../types/WeatherData';
 import {weatherApi} from '../api/weather.api';
 import {converWeatherData} from '../../utils/convertWeatherData';
-import {weatherActions} from '../actions/weather.actions';
+import {
+  weatherActions,
+  GET_WEATHER_FOR_CITY,
+  GET_WEATHER_FOR_CITIES,
+} from '../actions/weather.actions';
 import {errorActions} from '../actions/error.actions';
 import {ActionTypes} from '../actions/ActionTypes.constants';
 import {weatherSelector} from '../selectors/weather.selector';
+import {MAX_CITIES_NUMBER} from '../../constants/weather.constants';
 
-export function* getWeatherForCity(action: BaseAction) {
+export function* getWeatherForCity(action: BaseAction<GET_WEATHER_FOR_CITY>) {
   try {
-    const {city, units} = action.payload;
+    const city = action.payload;
+    const units = yield select(weatherSelector.getWeatherUnits);
     const citiesName = yield select(weatherSelector.getCitiesName());
     if (
       citiesName
         .map((name: string) => name.toLowerCase())
-        .includes(city.toLowerCase())
+        .includes(city?.toLowerCase())
     )
-      throw new Error(`${city.toUpperCase()} is already in the list`);
+      throw new Error(`${city?.toUpperCase()} is already in the list`);
+    if (citiesName.length === MAX_CITIES_NUMBER)
+      throw new Error(`You can't add more cities`);
+
     const fetchedData: WeatherDataFetched = yield call(
       weatherApi.getWeatherByCityName,
       city,
@@ -53,9 +62,14 @@ export function* getWeatherForCity(action: BaseAction) {
   }
 }
 
-export function* getWeatherForCities(action: BaseAction) {
+export function* getWeatherForCities(
+  action: BaseAction<GET_WEATHER_FOR_CITIES>,
+) {
   try {
-    const {cities, units} = action.payload;
+    const {cities} = action.payload;
+    let {units} = action.payload;
+    if (!units) units = 'metric';
+    yield put(weatherActions.setWeatherUnits(units));
     const fetchedData: WeatherListDataFetched = yield call(
       weatherApi.getWeatherByCityIds,
       cities,
@@ -76,7 +90,7 @@ export function* getWeatherForCities(action: BaseAction) {
   }
 }
 
-export function* deleteCity(action: BaseAction) {
+export function* deleteCity(action: BaseAction<number>) {
   try {
     const cityId = action.payload;
     const weatherData = yield select(weatherSelector.getWeather);

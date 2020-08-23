@@ -5,21 +5,24 @@ import {List, Chip} from 'react-native-paper';
 import Swipeable from 'react-native-swipeable';
 import {WeatherData} from '../types/WeatherData';
 import {UIconstants} from '../constants/styles.constants';
+import {Units} from '../types/Units.type';
 
 type Props = {
   city: WeatherData;
   onPress?: () => void;
   onDelete?: () => void;
   swipable?: boolean;
+  units: Units;
 };
 export const WeatherItem = ({
   city,
   onPress,
   onDelete,
   swipable = false,
+  units,
 }: Props) => {
   const iconUrl = `https://openweathermap.org/img/wn/${city.icon}@4x.png`;
-  const temperature = `${city.temp}°C`;
+  const temperature = `${city.temp}°${units === 'metric' ? 'C' : 'F'}`;
 
   const swipeBtns = [
     <View key="delete">
