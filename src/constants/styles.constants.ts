@@ -5,5 +5,6 @@ export const UIconstants = {
     PureLight: '#FFFFFF',
     PitchBlack: '#000000',
     Grey: '#ABACAB',
+    Red: '#FF0000',
   },
 };

@@ -1,17 +1,38 @@
 import * as React from 'react';
-import {TouchableOpacity, Image, StyleSheet} from 'react-native';
+import {TouchableOpacity, Image, StyleSheet, View, Text} from 'react-native';
 import {List, Chip} from 'react-native-paper';
+// @ts-ignore
+import Swipeable from 'react-native-swipeable';
 import {WeatherData} from '../types/WeatherData';
 import {UIconstants} from '../constants/styles.constants';
+import {Units} from '../types/Units.type';
 
 type Props = {
   city: WeatherData;
   onPress?: () => void;
+  onDelete?: () => void;
+  swipable?: boolean;
+  units: Units;
 };
-export const WeatherItem = ({city, onPress}: Props) => {
+export const WeatherItem = ({
+  city,
+  onPress,
+  onDelete,
+  swipable = false,
+  units,
+}: Props) => {
   const iconUrl = `https://openweathermap.org/img/wn/${city.icon}@4x.png`;
-  const temperature = `${city.temp}°C`;
-  return (
+  const temperature = `${city.temp}°${units === 'metric' ? 'C' : 'F'}`;
+
+  const swipeBtns = [
+    <View key="delete">
+      <TouchableOpacity style={styles.deleteButton} onPress={onDelete}>
+        <Text style={styles.deleteText}>Delete</Text>
+      </TouchableOpacity>
+    </View>,
+  ];
+
+  const item = (
     <TouchableOpacity onPress={onPress}>
       <List.Item
         style={styles.listItem}
@@ -37,6 +58,12 @@ export const WeatherItem = ({city, onPress}: Props) => {
       />
     </TouchableOpacity>
   );
+
+  return swipable ? (
+    <Swipeable rightButtons={swipeBtns}>{item}</Swipeable>
+  ) : (
+    item
+  );
 };
 
 const styles = StyleSheet.create({
@@ -45,12 +72,11 @@ const styles = StyleSheet.create({
     height: 50,
   },
   listItem: {
-    flexDirection: 'column',
     justifyContent: 'space-between',
     margin: 2,
     padding: 12,
-    borderColor: UIconstants.colors.Grey,
-    borderWidth: 2,
+    borderBottomColor: UIconstants.colors.Grey,
+    borderBottomWidth: 2,
   },
   chip: {
     alignItems: 'center',
@@ -59,5 +85,16 @@ const styles = StyleSheet.create({
   },
   chipBackground: {
     backgroundColor: UIconstants.colors.VividCyan,
+  },
+  deleteButton: {
+    backgroundColor: UIconstants.colors.Red,
+    height: 75,
+    width: 75,
+  },
+  deleteText: {
+    color: UIconstants.colors.PureLight,
+    textAlign: 'center',
+    fontSize: 20,
+    paddingTop: 25,
   },
 });
