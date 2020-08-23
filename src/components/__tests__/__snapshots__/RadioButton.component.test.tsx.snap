@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RadioButtonComponent renders correctly 1`] = `
+<View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "fontSize": 14,
+          "marginRight": 15,
+        }
+      }
+    >
+      text
+    </Text>
+    <View
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "borderColor": "#3EEFD8",
+          "borderRadius": 50,
+          "borderWidth": 2,
+          "height": 20,
+          "justifyContent": "center",
+          "opacity": 1,
+          "width": 20,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "backgroundColor": "#3EEFD8",
+            "borderRadius": 50,
+            "height": 10,
+            "width": 10,
+          }
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
