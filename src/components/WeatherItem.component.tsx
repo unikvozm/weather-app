@@ -45,12 +45,11 @@ const styles = StyleSheet.create({
     height: 50,
   },
   listItem: {
-    flexDirection: 'column',
     justifyContent: 'space-between',
     margin: 2,
     padding: 12,
-    borderColor: UIconstants.colors.Grey,
-    borderWidth: 2,
+    borderBottomColor: UIconstants.colors.Grey,
+    borderBottomWidth: 2,
   },
   chip: {
     alignItems: 'center',
