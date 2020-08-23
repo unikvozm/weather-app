@@ -1,52 +1,81 @@
 import * as React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Button, Text} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {useDispatch, useSelector} from 'react-redux';
-import {RouteProp} from '@react-navigation/native';
 import {List} from 'react-native-paper';
+import AsyncStorage from '@react-native-community/async-storage';
 import {RootStackParamList} from '../types/RootStackParamList';
 import {weatherActions} from '../redux/actions/weather.actions';
-import {Store} from '../redux/reducers/root.reducer';
 import {WeatherData} from '../types/WeatherData';
 import {WeatherItem} from '../components/WeatherItem.component';
+import {PREDEFINED_CITIES_ID} from '../constants/weather.constants';
+import {errorActions} from '../redux/actions/error.actions';
+import {weatherSelector} from '../redux/selectors/weather.selector';
+import {CityAddingComponent} from '../components/CityAddingComponent';
+import {errorSelector} from '../redux/selectors/errors.selector';
+import {UIconstants} from '../constants/styles.constants';
 
-type ProfileScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'Weather'
->;
-
-type WeatherScreenRouteProp = RouteProp<RootStackParamList, 'Weather'>;
+type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList>;
 
 type Props = {
   navigation: ProfileScreenNavigationProp;
-  route: WeatherScreenRouteProp;
 };
 
-export const WeatherScreen = ({navigation, route}: Props) => {
-  const {cities} = route.params;
-  const weather = useSelector((state: Store) => state.weather.weather);
+export const WeatherScreen = ({navigation}: Props) => {
+  const weather = useSelector(weatherSelector.getWeather);
+  const error = useSelector(errorSelector.getError);
+
+  const [isAddingMode, changeAddingMode] = React.useState(false);
 
   const dispatch = useDispatch();
 
+  const getCitiesInit = async () => {
+    try {
+      const cities = await AsyncStorage.getItem('cities');
+      dispatch(
+        weatherActions.getWeatherForCities(
+          cities ? JSON.parse(cities) : PREDEFINED_CITIES_ID,
+        ),
+      );
+    } catch (error) {
+      dispatch(
+        errorActions.setErrorMessage('Cannot get cities list from storage'),
+      );
+    }
+  };
+
   React.useEffect(() => {
-    dispatch(weatherActions.getWeatherForCities(cities));
-  }, [cities]);
+    getCitiesInit();
+  }, []);
+
+  const addCity = (city: string) =>
+    dispatch(weatherActions.getWeatherForCity(city));
 
   const renderItem = (city: WeatherData) => (
-    <>
-      <WeatherItem
-        city={city}
-        onPress={() => navigation.navigate('Details', {city: city.id})}
-        key={city.id}
-      />
-    </>
+    <WeatherItem
+      city={city}
+      onPress={() => navigation.navigate('Details', {cityId: city.id})}
+      key={city.id}
+    />
   );
+
+  const openAddingMode = () => changeAddingMode(true);
+  const closeAddingMode = () => changeAddingMode(false);
 
   return (
     <View style={styles.container}>
-      <List.Section style={styles.listContainer}>
-        {[...weather.values()].map((city) => renderItem(city))}
-      </List.Section>
+      <Button onPress={openAddingMode} title="Add a city" />
+      <Text style={styles.error}>{error}</Text>
+      {isAddingMode ? (
+        <CityAddingComponent
+          addCity={addCity}
+          closeAddingMode={closeAddingMode}
+        />
+      ) : (
+        <List.Section style={styles.listContainer}>
+          {[...weather.values()].map((city) => renderItem(city))}
+        </List.Section>
+      )}
     </View>
   );
 };
@@ -57,5 +86,8 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     justifyContent: 'space-between',
+  },
+  error: {
+    color: UIconstants.colors.Red,
   },
 });
