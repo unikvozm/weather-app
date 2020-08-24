@@ -41,8 +41,8 @@ export const DetailsScreen = ({route}: Props) => {
         <List.Item
           style={styles.listItem}
           title="Wind speed"
-          accessibilityHint="Wind speed"
           right={(props) => <Text {...props}>{windSpeed}</Text>}
+          accessibilityHint="Wind speed"
         />
         <List.Item
           style={styles.listItem}

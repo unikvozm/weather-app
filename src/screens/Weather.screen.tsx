@@ -73,8 +73,8 @@ export const WeatherScreen = ({navigation}: Props) => {
       onPress={() => navigation.navigate('Details', {cityId: city.id})}
       onDelete={() => deleteCity(city.id)}
       key={city.id}
-      units={units}
       swipable
+      units={units}
     />
   );
 
