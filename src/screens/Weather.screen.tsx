@@ -92,7 +92,7 @@ export const WeatherScreen = ({navigation}: Props) => {
     },
   ];
   return (
-    <View style={styles.container}>
+    <View style={styles.container} accessibilityHint="Weather Screen">
       <View style={styles.btnContainer}>
         <Button onPress={openAddingMode} title="Add a city" />
         <RadioButtonComponent
@@ -108,8 +108,10 @@ export const WeatherScreen = ({navigation}: Props) => {
           closeAddingMode={closeAddingMode}
         />
       ) : (
-        <List.Section style={styles.listContainer}>
-          {[...weather.values()].map((city) => renderItem(city))}
+        <List.Section
+          style={styles.listContainer}
+          accessibilityHint="Weather List">
+          {weather.map((city) => renderItem(city))}
         </List.Section>
       )}
     </View>

@@ -1,0 +1,243 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WeatherScreen renders correctly 1`] = `
+<View
+  collapsable={false}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    accessibilityHint="Weather Screen"
+    style={
+      Object {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "justifyContent": "space-evenly",
+        }
+      }
+    >
+      <View
+        accessibilityRole="button"
+        accessibilityState={Object {}}
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "opacity": 1,
+          }
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {},
+            ]
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "#007AFF",
+                  "fontSize": 18,
+                  "margin": 8,
+                  "textAlign": "center",
+                },
+              ]
+            }
+          >
+            Add a city
+          </Text>
+        </View>
+      </View>
+      <View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "fontSize": 14,
+                "marginRight": 15,
+              }
+            }
+          >
+            Metric
+          </Text>
+          <View
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "alignItems": "center",
+                "borderColor": "#3EEFD8",
+                "borderRadius": 50,
+                "borderWidth": 2,
+                "height": 20,
+                "justifyContent": "center",
+                "opacity": 1,
+                "width": 20,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "backgroundColor": "#3EEFD8",
+                  "borderRadius": 50,
+                  "height": 10,
+                  "width": 10,
+                }
+              }
+            />
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "fontSize": 14,
+                "marginRight": 15,
+              }
+            }
+          >
+            Imperial
+          </Text>
+          <View
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "alignItems": "center",
+                "borderColor": "#3EEFD8",
+                "borderRadius": 50,
+                "borderWidth": 2,
+                "height": 20,
+                "justifyContent": "center",
+                "opacity": 1,
+                "width": 20,
+              }
+            }
+          />
+        </View>
+      </View>
+    </View>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#000000",
+            "fontFamily": "System",
+            "fontWeight": "400",
+            "textAlign": "left",
+          },
+          Object {
+            "color": "#FF0000",
+          },
+        ]
+      }
+    >
+      
+    </Text>
+    <View
+      accessibilityHint="Weather List"
+      style={
+        Array [
+          Object {
+            "marginVertical": 8,
+          },
+          Object {
+            "justifyContent": "space-between",
+          },
+        ]
+      }
+      theme={
+        Object {
+          "animation": Object {
+            "scale": 1,
+          },
+          "colors": Object {
+            "accent": "#03dac4",
+            "backdrop": "rgba(0, 0, 0, 0.5)",
+            "background": "#f6f6f6",
+            "disabled": "rgba(0, 0, 0, 0.26)",
+            "error": "#B00020",
+            "notification": "#f50057",
+            "onBackground": "#000000",
+            "onSurface": "#000000",
+            "placeholder": "rgba(0, 0, 0, 0.54)",
+            "primary": "#6200ee",
+            "surface": "#ffffff",
+            "text": "#000000",
+          },
+          "dark": false,
+          "fonts": Object {
+            "light": Object {
+              "fontFamily": "System",
+              "fontWeight": "300",
+            },
+            "medium": Object {
+              "fontFamily": "System",
+              "fontWeight": "500",
+            },
+            "regular": Object {
+              "fontFamily": "System",
+              "fontWeight": "400",
+            },
+            "thin": Object {
+              "fontFamily": "System",
+              "fontWeight": "100",
+            },
+          },
+          "roundness": 4,
+        }
+      }
+    />
+  </View>
+</View>
+`;

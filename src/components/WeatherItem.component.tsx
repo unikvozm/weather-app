@@ -54,6 +54,7 @@ export const WeatherItem = ({
             {temperature}
           </Chip>
         )}
+        accessibilityHint="Weather Forecast"
       />
     </TouchableOpacity>
   );
