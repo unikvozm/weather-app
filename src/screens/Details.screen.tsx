@@ -6,7 +6,9 @@ import {List} from 'react-native-paper';
 import {RootStackParamList} from '../types/RootStackParamList';
 import {WeatherItem} from '../components/WeatherItem.component';
 import {UIconstants} from '../constants/styles.constants';
+import OurModuleInterface from '../utils/Notification.component';
 import {weatherSelector} from '../redux/selectors/weather.selector';
+import {CustomButton} from '../components/CustomButton.component/CustomButton.component';
 
 type DetailsScreenRouteProp = RouteProp<RootStackParamList, 'Details'>;
 
@@ -18,6 +20,15 @@ export const DetailsScreen = ({route}: Props) => {
   const {cityId} = route.params;
   const cityData = useSelector(weatherSelector.getCityWeather(cityId));
   const units = useSelector(weatherSelector.getWeatherUnits);
+
+  const showNotification = () => {
+    OurModuleInterface.showFancyNotification(
+      cityData.name,
+      `The weather is ${cityData.description.toLowerCase()} now in ${
+        cityData.name
+      }`,
+    );
+  };
 
   if (cityData) {
     const windSpeed = `${cityData.windSpeed} ${
@@ -50,6 +61,11 @@ export const DetailsScreen = ({route}: Props) => {
           right={(props) => <Text {...props}>{cityData.cloudsCover} %</Text>}
           accessibilityHint="Cloud cover"
         />
+        <CustomButton
+          style={styles.button}
+          text="Show Notification"
+          onPress={showNotification}
+        />
       </View>
     );
   }
@@ -71,5 +87,11 @@ const styles = StyleSheet.create({
     padding: 12,
     borderBottomColor: UIconstants.colors.Grey,
     borderBottomWidth: 2,
+  },
+  button: {
+    width: 240,
+    height: 60,
+    backgroundColor: UIconstants.colors.VividCyan,
+    justifyContent: 'center',
   },
 });

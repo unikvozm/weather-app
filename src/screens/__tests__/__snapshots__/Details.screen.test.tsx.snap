@@ -21,6 +21,5 @@ exports[`DetailsScreen renders correctly 1`] = `
       Something went wrong
     </Text>
   </View>
-  ,
 </View>
 `;
