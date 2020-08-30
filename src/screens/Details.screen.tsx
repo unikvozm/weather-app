@@ -35,7 +35,10 @@ export const DetailsScreen = ({route}: Props) => {
       units === 'metric' ? 'm/s' : 'miles/hour'
     }`;
     return (
-      <View style={styles.container} accessibilityHint="Weather Details">
+      <View
+        style={styles.container}
+        accessibilityHint="Weather Details"
+        testID="Details Screen">
         <WeatherItem city={cityData} units={units} />
         <List.Item
           style={styles.listItem}

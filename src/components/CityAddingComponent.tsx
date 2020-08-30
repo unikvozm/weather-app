@@ -20,6 +20,7 @@ export const CityAddingComponent = ({addCity, closeAddingMode}: Props) => {
         value={query}
         onChangeText={(text) => setQuery(text)}
         placeholder="Start typing a city"
+        testID="City to add"
       />
       <View style={styles.btnsContainer}>
         <Button onPress={onSubmit} title="Add" disabled={!query} />
