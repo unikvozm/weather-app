@@ -17,6 +17,7 @@ exports[`WeatherScreen renders correctly 1`] = `
         "flex": 1,
       }
     }
+    testID="Weather Screen"
   >
     <View
       style={

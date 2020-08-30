@@ -10,24 +10,22 @@ declare const global: {HermesInternal: null | {}};
 
 const Stack = createStackNavigator<RootStackParamList>();
 
-const App = () => {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: UIconstants.colors.VividCyan,
-          },
-          headerTintColor: UIconstants.colors.MilkyWay,
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}>
-        <Stack.Screen name="Weather" component={WeatherScreen} />
-        <Stack.Screen name="Details" component={DetailsScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-};
+const App = () => (
+  <NavigationContainer>
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: UIconstants.colors.VividCyan,
+        },
+        headerTintColor: UIconstants.colors.MilkyWay,
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}>
+      <Stack.Screen name="Weather" component={WeatherScreen} />
+      <Stack.Screen name="Details" component={DetailsScreen} />
+    </Stack.Navigator>
+  </NavigationContainer>
+);
 
 export default App;
