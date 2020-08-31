@@ -1,0 +1,121 @@
+version: 2.1
+
+ios_defaults: &ios_defaults
+  macos:
+    xcode: '11.3.0'
+  working_directory: ~/natalia-volkova-onboarding
+
+android_defaults: &android_defaults
+  docker:
+    - image: krizzu/react-native-android
+  working_directory: ~/natalia-volkova-onboarding
+
+orbs:
+  node: circleci/node@3.0.0
+
+commands:
+  run_ios_fastlane:
+    parameters:
+      lane:
+        type: string
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/natalia-volkova-onboarding
+      - run: sudo gem install bundler
+      - run: cd ios && pod install
+      - run: cd ios/fastlane && bundle install
+      - run: cd ios/fastlane && bundle exec fastlane ios << parameters.lane >> --verbose
+      - store_artifacts:
+          path: output
+
+  run_android_fastlane:
+    parameters:
+      lane:
+        type: string
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/natalia-volkova-onboarding
+      - run: cd android/fastlane && bundle install
+      - run: cd android/app && echo $RELEASE_KEYSTORE_BASE64 | base64 --decode > $RELEASE_STORE_FILE
+      - run: cd android && printf 'RELEASE_STORE_FILE=%s\nRELEASE_KEY_ALIAS=%s\nRELEASE_STORE_PASSWORD=%s\nRELEASE_KEY_PASSWORD=%s' $RELEASE_STORE_FILE $RELEASE_KEY_ALIAS $RELEASE_STORE_PASSWORD $RELEASE_KEY_PASSWORD > keystore.properties
+      - run: cd android/fastlane && bundle exec fastlane android << parameters.lane >>
+      - store_artifacts:
+          path: android/app/build/outputs/apk/
+
+jobs:
+  setup:
+    <<: *android_defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/natalia-volkova-onboarding
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ arch }}-{{ checksum "yarn.lock" }}
+      - run: yarn install --ignore-engines --frozen-lockfile --ignore-optional
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ arch }}-{{ checksum "yarn.lock" }}
+      - persist_to_workspace:
+          root: .
+          paths: .
+
+  test:
+    <<: *android_defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/natalia-volkova-onboarding
+      - run: yarn lint
+      - run: yarn test
+
+  fix_codesigning:
+    <<: *ios_defaults
+    steps:
+      - run_ios_fastlane:
+          lane: fix_codesigning
+
+  build_ios:
+    <<: *ios_defaults
+    steps:
+      - run_ios_fastlane:
+          lane: build
+
+  build_android:
+    <<: *android_defaults
+    steps:
+      - run_android_fastlane:
+          lane: build
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - setup
+      - test:
+          requires:
+            - setup
+      - trigger_fix_codesigning:
+          type: approval
+          requires:
+            - setup
+      - fix_codesigning:
+          requires:
+            - trigger_fix_codesigning
+      - trigger_ios_build:
+          type: approval
+          requires:
+            - test
+      - trigger_android_build:
+          type: approval
+          requires:
+            - test
+      - build_ios:
+          requires:
+            - trigger_ios_build
+      - build_android:
+          requires:
+            - trigger_android_build
