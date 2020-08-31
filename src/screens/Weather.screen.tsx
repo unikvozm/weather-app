@@ -97,7 +97,7 @@ export const WeatherScreen = ({navigation}: Props) => {
       accessibilityHint="Weather Screen"
       testID="Weather Screen">
       <View style={styles.btnContainer}>
-        <Button onPress={openAddingMode} title="Add a city" />
+        <Button onPress={openAddingMode} title="ADD A CITY" />
         <RadioButtonComponent
           data={unitsBtnsData}
           onValueChange={onUnitsChange}

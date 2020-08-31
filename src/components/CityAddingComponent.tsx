@@ -23,7 +23,7 @@ export const CityAddingComponent = ({addCity, closeAddingMode}: Props) => {
         testID="City to add"
       />
       <View style={styles.btnsContainer}>
-        <Button onPress={onSubmit} title="Add" disabled={!query} />
+        <Button onPress={onSubmit} title="ADD" disabled={!query} />
         <Button onPress={closeAddingMode} title="Cancel" />
       </View>
     </View>

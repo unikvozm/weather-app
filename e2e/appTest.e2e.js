@@ -32,11 +32,11 @@ describe('WeatherApp', () => {
 
   it('should add a city', async () => {
     await expect(element(by.text('Moscow'))).toNotExist();
-    await element(by.text('Add a city')).tap();
+    await element(by.text('ADD A CITY')).tap();
     await expect(element(by.id('City to add'))).toBeVisible();
     await element(by.id('City to add')).typeText('Moscow');
     await expect(element(by.text('Moscow'))).toBeVisible();
-    await element(by.text('Add')).tap();
+    await element(by.text('ADD')).tap();
     await expect(element(by.text('Moscow'))).toBeVisible();
   });
 });
