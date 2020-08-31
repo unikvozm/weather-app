@@ -166,6 +166,7 @@ exports[`CityAddingComponent renders correctly 1`] = `
             ],
           ]
         }
+        testID="City to add"
         underlineColorAndroid="transparent"
         value=""
       />

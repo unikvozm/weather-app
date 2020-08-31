@@ -1,0 +1,46 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  before_all do
+    setup_circle_ci
+  end
+
+  lane :build do
+    match(
+      type: 'development', # for deployment you would want to use: 'appstore',
+      readonly: true,
+      app_identifier: 'org.callstack.nataliavolkova.onboarding',
+    )
+    gym(
+      configuration: 'Release',
+      scheme: 'WeatherApp',
+      export_method: 'development', # for deployment you would want to use: 'app-store'
+      workspace: 'WeatherApp.xcworkspace', # if you use CocoaPods, the default since React Native 0.60
+      output_directory: 'output',
+      xcargs: "-UseModernBuildSystem=NO"
+    )
+  end
+
+    lane :fix_codesigning do
+    match(
+      type: 'development',
+      readonly: true,
+      app_identifier: 'org.callstack.nataliavolkova.onboarding'
+    )
+  end
+end

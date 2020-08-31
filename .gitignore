@@ -29,6 +29,7 @@ build/
 local.properties
 *.iml
 *.jks
+.env.*
 keystore.properties
 
 # Visual Studio Code
